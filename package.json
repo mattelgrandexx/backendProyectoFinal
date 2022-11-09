@@ -1,0 +1,25 @@
+{
+  "name": "menu-bar",
+  "version": "1.0.0",
+  "description": "Proyecto final curso full stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/index.js"
+  },
+  "keywords": [
+    "backend",
+    "express",
+    "rutas",
+    "mongodb"
+  ],
+  "author": "Cardoso Matias, Casacci Luciano, Fara Nicolas, Elias Nicolas",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
