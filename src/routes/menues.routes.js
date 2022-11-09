@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { listarMenues } from "../controllers/menues.controllers";
+import { crearMenues, listarMenues } from "../controllers/menues.controllers";
 
 const router = Router();
 
-router.route("/menus").get(listarMenues)
+router.route("/menus").get(listarMenues).post(crearMenues)
 
 
 
