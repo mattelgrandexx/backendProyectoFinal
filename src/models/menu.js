@@ -1,19 +1,20 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, {Schema} from "mongoose"
 
-const menuSchema = new Schema = {
+const menuSchema = new Schema({
+    
     nombreMenu: {
         type: String,
         required: true,
         unique: true,
         minLength: 5,
-        maxLength: 30
-    }, 
+        maxLength: 50
+    },
     precioMenu: {
-        type: Number, 
+        type: Number,
         required: true,
-        min: 100, 
+        min: 100,
         max: 10000
-    }, 
+    },
     descripcion: {
         type: String,
         required: true,
@@ -26,18 +27,19 @@ const menuSchema = new Schema = {
         required: true
     },
     pan:{
-        type: String, 
+        type: String,
         required: true
-    }    
+    }
+})
+
     // ,
     // categoria: {
     //     type: String,
     //     required: true
     // }
     //podriamos agregar categoria si vendemos postres o entrantes, veremos como vamos con el tiempo
-}
 
-export const Menu = mongoose.model("menu", menuSchema)
+export const Hamburguesa = mongoose.model("menu", menuSchema)
 
 
 //   para el backend, manejando el administrador
@@ -61,4 +63,3 @@ export const Menu = mongoose.model("menu", menuSchema)
 //     "detalle": "sin lechuga",
 //     "precioTotal": 1650
 //   }
-  
