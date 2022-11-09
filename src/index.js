@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import path from "path";
-import productoRouter from "./routes/producto.routes";
+import menuRouter from "./routes/menues.routes";
 
 import "./database"
+
 const app = express();
 
 app.set("port", process.env.PORT || 4000);
@@ -25,4 +26,4 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 
 // http://localhost:4000/menubar/prueba
-app.use("/menubar", productoRouter);
+app.use("/apimenu", menuRouter);
