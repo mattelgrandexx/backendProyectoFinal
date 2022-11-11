@@ -26,7 +26,7 @@ const menuSchema = new Schema({
         type: String,
         required: true
     },
-    pan:{
+    categoria:{
         type: String,
         required: true
     }
