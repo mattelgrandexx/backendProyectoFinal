@@ -27,4 +27,4 @@ const userSchema = new Schema({
     }
 })
 
-export const Usuario = mongoose.model("usuario", menuSchema)
+export const Usuario = mongoose.model("usuario", userSchema)

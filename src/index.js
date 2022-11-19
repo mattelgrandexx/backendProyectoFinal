@@ -3,6 +3,8 @@ import cors from "cors";
 import morgan from "morgan";
 import path from "path";
 import menuRouter from "./routes/menues.routes";
+import usuarioRouter from ".routes/usuarios.routes"
+
 
 import "./database"
 
