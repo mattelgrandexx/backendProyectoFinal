@@ -15,26 +15,28 @@ export const crearUsuario = async (req,res) => {
         }
         const { email, password } = req.body;
 
-        let nuevoUSuario = await Usuario.findOne({ email }); //devulve un null
+        let nuevoUsuario = await Usuario.findOne({ email }); //devulve un null
 
-        if (nuevoUSuario) {
+        if (nuevoUsuario) {
           //si el usuario existe
           return res.status(400).json({
             mensaje: "ya existe un usuario con el correo enviado",
           });
         }
     
-         nuevoUSuario = new Usuario(req.body)
+        nuevoUsuario = new Usuario(req.body)
 
          const salt = bcrypt.genSaltSync();
-         nuevoUSuario.password = bcrypt.hashSync(password, salt)
+         nuevoUsuario.password = bcrypt.hashSync(password, salt)
 
 
-        await nuevoUSuario.save()
+        await nuevoUsuario.save()
 
         
         res.status(201).json({
-            message: "Usuario creado con exito."
+            message: "Usuario creado con exito.",
+            _id: nuevoUsuario._id,
+            email: nuevoUsuario.email
         })
 
     } catch(e){
@@ -77,13 +79,13 @@ export const encontrarUsuario = async (req, res) => {
         });
       }
       //generar el token
-      const token = await generarJWT(usuario._id, usuario.nombre)
+      const token = await generarJWT(usuario._id, usuario.email)
   
       //responder que el usuario es correcto
       res.status(200).json({
         mensaje: "El usuario existe",
-        uid: usuario._id,
-        nombre: usuario.nombre,
+        _id: usuario._id,
+        email: usuario.email,
         token
       });
     } catch (error) {

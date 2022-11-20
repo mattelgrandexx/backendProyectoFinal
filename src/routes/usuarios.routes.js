@@ -37,6 +37,6 @@ routerUser.route("/perfilusuarios").post([
     crearUsuario
 ])
 
-routerUser.route("/perfilusuarios/auth/*").post(encontrarUsuario)
+routerUser.route("/perfilusuarios/login").post(encontrarUsuario)
 
 export default routerUser;

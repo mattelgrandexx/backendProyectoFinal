@@ -6,7 +6,7 @@ const generarJWT = (_id, email)=>{
         const payload = {_id, email};
         // firmar el token
         jwt.sign(payload, process.env.SECRET_JWT, {
-            expiresIn:'3h'
+            expiresIn:'1h'
         }, (err, token)=>{
             //si falla el generar el token
             if(err){
