@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { Usuario } from "../models/usuario";
 
 
@@ -8,6 +9,7 @@ export const crearUsuario = async (req,res) => {
          return res.status(400).json({
             errors: errors.array()
           })
+          
         }
         const nuevoUSuario = new Usuario(req.body)
         await nuevoUSuario.save()
@@ -16,8 +18,9 @@ export const crearUsuario = async (req,res) => {
         })
 
     } catch(e){
-        res.stauts(404).json({
-            message: "No pudimos crear el usuario."
+        console.log(e)
+        res.status(404).json({
+            message: "No pudimos crear el usuario.",
         })
     }
 }

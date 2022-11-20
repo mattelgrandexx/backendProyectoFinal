@@ -2,9 +2,9 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { crearUsuario, encontrarUsuario } from "../controllers/user.controllers";
 
-const router = Router()
+const routerUser = Router()
 
-router.route("/usuarios").get(encontrarUsuario).post([
+routerUser.route("/perfilusuarios").get(encontrarUsuario).post([
     check("nombreUsuario", "El nombre del usuario es obligatorio.")
     .notEmpty()
     .trim()
@@ -36,4 +36,4 @@ router.route("/usuarios").get(encontrarUsuario).post([
     crearUsuario
 ])
 
-export default router;
+export default routerUser;
