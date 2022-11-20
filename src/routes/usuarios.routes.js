@@ -4,7 +4,7 @@ import { crearUsuario, encontrarUsuario } from "../controllers/user.controllers"
 
 const routerUser = Router()
 
-routerUser.route("/perfilusuarios").get(encontrarUsuario).post([
+routerUser.route("/perfilusuarios").post([
     check("nombreUsuario", "El nombre del usuario es obligatorio.")
     .notEmpty()
     .trim()
@@ -20,6 +20,7 @@ routerUser.route("/perfilusuarios").get(encontrarUsuario).post([
     .withMessage("El apellido debe tener entre 2 y 30 caracteres."),
 
     check("email", "El email del usuario es obligatorio")
+    .isEmail()
     .notEmpty()
     .trim()
     .withMessage("El campo no puede estar vacio.")
@@ -35,5 +36,7 @@ routerUser.route("/perfilusuarios").get(encontrarUsuario).post([
     
     crearUsuario
 ])
+
+routerUser.route("/perfilusuarios/auth/*").post(encontrarUsuario)
 
 export default routerUser;
