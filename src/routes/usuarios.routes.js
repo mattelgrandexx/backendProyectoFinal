@@ -31,8 +31,8 @@ routerUser.route("/perfilusuarios").post([
     .notEmpty()
     .trim()
     .withMessage("El campo no puede estar vacio.")
-    .isLength({ min: 8, max: 30 })
-    .withMessage("El apellido debe tener entre 8 y 30 caracteres."),
+    .isLength({ min: 8, max: 60 })
+    .withMessage("La contraseña debe tener entre 8 y 60 caracteres."),
     
     crearUsuario
 ])
