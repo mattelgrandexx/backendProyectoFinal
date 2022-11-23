@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { crearUsuario, encontrarUsuario } from "../controllers/user.controllers";
+import { consultarUsuarios, crearUsuario, encontrarUsuario, resetPassword } from "../controllers/user.controllers";
 
 const routerUser = Router()
 
-routerUser.route("/perfilusuarios").post([
+routerUser.route("/perfilusuarios").get(consultarUsuarios).post([
     check("nombreUsuario", "El nombre del usuario es obligatorio.")
     .notEmpty()
     .trim()
@@ -37,6 +37,35 @@ routerUser.route("/perfilusuarios").post([
     crearUsuario
 ])
 
-routerUser.route("/perfilusuarios/login").post(encontrarUsuario)
+routerUser.route("/perfilusuarios/login").post([
+    check("email", "El email del usuario es obligatorio")
+    .isEmail()
+    .notEmpty()
+    .trim()
+    .withMessage("El campo no puede estar vacio.")
+    .matches( /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g)
+    .withMessage("Debe ingresar un formato valido."),
+
+    check("password", "La contraseña es obligatoria.")
+    .notEmpty()
+    .trim()
+    .withMessage("El campo no puede estar vacio.")
+    .isLength({ min: 8, max: 60 })
+    .withMessage("La contraseña debe tener entre 8 y 60 caracteres."),
+
+encontrarUsuario
+
+])
+
+routerUser.route("/perfilusuarios/recuperacion").post([
+    check("email", "El email del usuario es obligatorio")
+    .isEmail()
+    .notEmpty()
+    .trim()
+    .withMessage("El campo no puede estar vacio.")
+    .matches( /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g)
+    .withMessage("Debe ingresar un formato valido."),
+    resetPassword
+])
 
 export default routerUser;

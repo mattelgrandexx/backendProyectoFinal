@@ -3,6 +3,18 @@ import { Usuario } from "../models/usuario";
 import bcrypt from 'bcryptjs';
 import generarJWT from '../helpers/jwt';
 
+export const consultarUsuarios = async (req, res) => {
+  try{
+    const listaUsuarios = await Usuario.find
+      ({},{"password":0});
+    res.status(200).json(listaUsuarios)
+  } catch(e){
+    res.status(400).json({
+      message: "No pudimos obtener la lista de usuarios, intentelo nuevamente."
+    })
+  }
+}
+
 
 export const crearUsuario = async (req,res) => {
     try{
@@ -95,3 +107,35 @@ export const encontrarUsuario = async (req, res) => {
       });
     }
   };
+
+  export const resetPassword = async (req, res) => {
+    try{
+      const errors = validationResult(req);
+      // errors.isEmpty() devuelve false si hay errores
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
+      const {email} = req.body
+
+      let usuario = await Usuario.findOne({email : email }); //devulve un null
+      if (!usuario) {
+        //si el usuario existe
+        return res.status(400).json({
+          mensaje: "No pudimos enviar un correo a esa direccion",
+        });
+      }
+      
+      res.status(200).json({
+        mensaje: "Email de recuperacion de contraseña enviado.",
+        _id: usuario._id,
+        email: usuario.email,
+        token
+      })
+
+
+    } catch(e){
+      console.log(e)
+    }
+  }
