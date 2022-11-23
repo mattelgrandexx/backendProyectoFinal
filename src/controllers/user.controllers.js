@@ -1,7 +1,8 @@
 import { validationResult } from "express-validator";
 import { Usuario } from "../models/usuario";
 import bcrypt from 'bcryptjs';
-import generarJWT from '../helpers/jwt';
+import {generarJWT, generarAutenticacionToken, obtenerToken, obtenerTokenData } from '../helpers/jwt';
+import { enviarEmail, getTemplate } from "../helpers/mail";
 
 export const consultarUsuarios = async (req, res) => {
   try{
@@ -38,9 +39,14 @@ export const crearUsuario = async (req,res) => {
     
         nuevoUsuario = new Usuario(req.body)
 
-         const salt = bcrypt.genSaltSync();
-         nuevoUsuario.password = bcrypt.hashSync(password, salt)
+        const salt = bcrypt.genSaltSync();
+        nuevoUsuario.password = bcrypt.hashSync(password, salt)
 
+         const token = await obtenerToken(nuevoUsuario._id, nuevoUsuario.email)
+
+         const template = getTemplate(nuevoUsuario.email, token)
+
+         await enviarEmail(nuevoUsuario.email, "Este es un email de prueba", template)
 
         await nuevoUsuario.save()
 
@@ -108,6 +114,51 @@ export const encontrarUsuario = async (req, res) => {
     }
   };
 
+
+  export const confirmEmail = async (req, res) => {
+    try{
+        //obtener el token
+      const {token} = req.params;
+        //verificamos la data
+      const data = await obtenerTokenData(token)
+
+      if(!data){
+        return res.json({
+          message: "Error al obtener data."
+        })
+      }
+      const {email} = data.data.email
+        //buscar si existe el usuario
+        const usuario = await Usuario.findOne({email}) || null
+
+        if(usuario === null){
+          return res.json({
+            message: "Usuario no encontrado."
+          })
+        }
+        //verificamos el email identicos/mas seguridad con codigo
+        if(email !== usuario.email){
+          return res.redirect('/error')
+        }
+        //actualizar usuario
+        usuario.estado = "Autenticado"
+        //redireccionar a la confirmacion
+        await usuario.save()
+
+        return res.redirect(`/confirm/`)
+
+    }
+    catch(e){
+      console.log(e)
+      res.status(404).json({
+          message: "No pudimos confirmar el usuario.",
+      })
+  }
+  }
+
+
+
+
   export const resetPassword = async (req, res) => {
     try{
       const errors = validationResult(req);
@@ -125,13 +176,10 @@ export const encontrarUsuario = async (req, res) => {
         return res.status(400).json({
           mensaje: "No pudimos enviar un correo a esa direccion",
         });
-      }
-      
+      }      
       res.status(200).json({
         mensaje: "Email de recuperacion de contraseña enviado.",
-        _id: usuario._id,
-        email: usuario.email,
-        token
+        email: usuario.email
       })
 
 

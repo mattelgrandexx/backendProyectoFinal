@@ -27,6 +27,11 @@ const userSchema = new Schema({
         required: true,
         minLength: 8,
         maxLength: 60
+    },
+    estado: {
+        type: String,
+        required: true,
+        default: "No autenticado."
     }
 })
 

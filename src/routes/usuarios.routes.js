@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { consultarUsuarios, crearUsuario, encontrarUsuario, resetPassword } from "../controllers/user.controllers";
+import { confirmEmail, consultarUsuarios, crearUsuario, encontrarUsuario, resetPassword } from "../controllers/user.controllers";
 
 const routerUser = Router()
 
@@ -56,6 +56,8 @@ routerUser.route("/perfilusuarios/login").post([
 encontrarUsuario
 
 ])
+
+routerUser.route("/perfilusuarios/confirm/:token").get(confirmEmail)
 
 routerUser.route("/perfilusuarios/recuperacion").post([
     check("email", "El email del usuario es obligatorio")
