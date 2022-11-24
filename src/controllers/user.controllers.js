@@ -105,6 +105,7 @@ export const encontrarUsuario = async (req, res) => {
         mensaje: "El usuario existe",
         _id: usuario._id,
         email: usuario.email,
+        estado: usuario.estado,
         token
       });
     } catch (error) {
@@ -143,7 +144,7 @@ export const encontrarUsuario = async (req, res) => {
         //redireccionar a la confirmacion
         await usuario.save()
 
-        return res.redirect("/confirmar").json({
+        return res.status(200).json({
             estado: usuario.estado,
             email: usuario.email,
             _id: usuario._id
