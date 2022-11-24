@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import { Usuario } from "../models/usuario";
 import bcrypt from 'bcryptjs';
-import {generarJWT, generarAutenticacionToken, obtenerToken, obtenerTokenData } from '../helpers/jwt';
+import {generarJWT, obtenerToken, obtenerTokenData } from '../helpers/jwt';
 import { enviarEmail, getTemplate } from "../helpers/mail";
 
 export const consultarUsuarios = async (req, res) => {
@@ -44,7 +44,7 @@ export const crearUsuario = async (req,res) => {
 
          const token = await obtenerToken(nuevoUsuario._id, nuevoUsuario.email)
 
-         const template = getTemplate(nuevoUsuario.email, token)
+         const template = getTemplate(nuevoUsuario.nombreUsuario, token)
 
          await enviarEmail(nuevoUsuario.email, "Este es un email de prueba", template)
 
@@ -54,7 +54,8 @@ export const crearUsuario = async (req,res) => {
         res.status(201).json({
             message: "Usuario creado con exito.",
             _id: nuevoUsuario._id,
-            email: nuevoUsuario.email
+            email: nuevoUsuario.email,
+            token
         })
 
     } catch(e){
@@ -127,25 +128,26 @@ export const encontrarUsuario = async (req, res) => {
           message: "Error al obtener data."
         })
       }
-      const {email} = data.data.email
+      // const {_id} = data.data
         //buscar si existe el usuario
-        const usuario = await Usuario.findOne({email}) || null
+        const usuario = await Usuario.findOne({_id: data.data} || null)
 
         if(usuario === null){
           return res.json({
             message: "Usuario no encontrado."
           })
         }
-        //verificamos el email identicos/mas seguridad con codigo
-        if(email !== usuario.email){
-          return res.redirect('/error')
-        }
+      
         //actualizar usuario
         usuario.estado = "Autenticado"
         //redireccionar a la confirmacion
         await usuario.save()
 
-        return res.redirect(`/confirm/`)
+        return res.redirect("/confirmar").json({
+            estado: usuario.estado,
+            email: usuario.email,
+            _id: usuario._id
+        })
 
     }
     catch(e){

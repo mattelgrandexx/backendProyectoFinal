@@ -59,6 +59,7 @@ encontrarUsuario
 
 routerUser.route("/perfilusuarios/confirm/:token").get(confirmEmail)
 
+
 routerUser.route("/perfilusuarios/recuperacion").post([
     check("email", "El email del usuario es obligatorio")
     .isEmail()
