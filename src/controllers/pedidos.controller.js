@@ -43,7 +43,7 @@ export const editarPedidos =  async(req, res)=>{
         await Pedidos.findByIdAndUpdate(req.params.id, req.body);
 
         res.status(200).json({
-            mensaje:'Producto editado correctamente'
+            mensaje:'Pedido editado correctamente'
         })
 
     } catch (error) {
