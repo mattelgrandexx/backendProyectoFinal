@@ -46,7 +46,7 @@ export const crearUsuario = async (req,res) => {
 
          const template = getTemplate(nuevoUsuario.nombreUsuario, token)
 
-         await enviarEmail(nuevoUsuario.email, "Este es un email de prueba", template)
+         await enviarEmail(nuevoUsuario.email, "Autenticacion de email", template)
 
         await nuevoUsuario.save()
 
@@ -78,7 +78,7 @@ export const encontrarUsuario = async (req, res) => {
       }
   
       //verificar si existe un mail como el recibido
-      const { email, password } = req.body;
+      const { email, password} = req.body;
   
       //verificar si el email ya existe
       let usuario = await Usuario.findOne({ email }); //devulve un null
@@ -103,6 +103,7 @@ export const encontrarUsuario = async (req, res) => {
       //responder que el usuario es correcto
       res.status(200).json({
         mensaje: "El usuario existe",
+        nombreUsuario: usuario.nombreUsuario,
         _id: usuario._id,
         email: usuario.email,
         estado: usuario.estado,
@@ -145,6 +146,7 @@ export const encontrarUsuario = async (req, res) => {
         await usuario.save()
 
         return res.status(200).json({
+            nombreUsuario: usuario.nombreUsuario,
             estado: usuario.estado,
             email: usuario.email,
             _id: usuario._id

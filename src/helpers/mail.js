@@ -42,7 +42,7 @@ const mail = {
         return `
         <div>
             <h1>Hola ${nombreUsuario}, bienvenidos a Leno.</h1>
-            
+            <img src="https://i.postimg.cc/FFnKd1zQ/LENOLOGO3.png" alt="logo" heigth="400px" text-align="center" width="300px"></img>
             <p>Para confirmar tu cuenta, haz un click en el siguiente enlace</p>
             <a
             href="http://localhost:3000/confirmar/${token}"
@@ -51,7 +51,5 @@ const mail = {
            </div>
         `
     }
-    // <img src="https://trello.com/1/cards/636afa161043510112cf6151/attachments/636ef445cbe2c4032d6284cb/previews/636ef446cbe2c4032d6284d4/download/LENOLOGO2.png" alt="logo"
-    //         className="ms-3" style={{heigth: 100}}></img>
+    
 
-    // href="http://localhost:4000/apimenu/auth/perfilusuarios/confirm/${token}" 

@@ -31,7 +31,12 @@ const userSchema = new Schema({
     estado: {
         type: String,
         required: true,
-        default: "No autenticado."
+        default: "no autenticado"
+    },
+    permiso: {
+        type: String,
+        required: true,
+        default: "permitido"
     }
 })
 
