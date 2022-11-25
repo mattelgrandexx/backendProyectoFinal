@@ -1,4 +1,3 @@
-import Pedido from "./models/pedido";
 import mongoose, { Schema } from "mongoose";
 
 const pedidosSchema = new Schema({
@@ -27,6 +26,5 @@ const pedidosSchema = new Schema({
   },
 });
 
-const Pedidos = mongoose.model("pedidos", pedidosSchema);
+export const Pedidos = mongoose.model("pedidos", pedidosSchema);
 
-export default Pedidos;
