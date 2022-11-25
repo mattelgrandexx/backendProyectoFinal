@@ -17,6 +17,7 @@ export const crearMenu = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors)
       return res.status(400).json({
         errors: errors.array(),
       });
@@ -28,7 +29,6 @@ export const crearMenu = async (req, res) => {
       message: "El menu se creo con exito.",
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({
       message: "No se pudo crear el menu, intentenlo mas tarde.",
     });
@@ -37,7 +37,10 @@ export const crearMenu = async (req, res) => {
 
 export const obtenerMenu = async (req, res) => {
   try {
-    const menuBuscado = await Menu.findById(req.params.id);
+    const id = req.params._id
+
+    const menuBuscado = await Menu.findById(id);
+
     res.status(200).json(menuBuscado);
   } catch (error) {
     console.log(error);
@@ -49,7 +52,16 @@ export const obtenerMenu = async (req, res) => {
 
 export const editarMenu = async (req, res) => {
   try {
-    await Menu.findByIdAndUpdate(req.params.id, req.body);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors)
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    await Menu.findByIdAndUpdate(req.params._id, req.body);
     res.status(200).json({
       mensaje: "El menu se actualizado correctamente",
     });
@@ -63,7 +75,7 @@ export const editarMenu = async (req, res) => {
 
 export const borrarMenu = async (req, res) => {
   try {
-    await Menu.findByIdAndDelete(req.params.id);
+    await Menu.findByIdAndDelete(req.params._id);
     res.status(200).json({
       mensaje: "El menu se borro correctamente",
     });

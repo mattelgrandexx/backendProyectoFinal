@@ -26,7 +26,7 @@ const mail = {
  export const enviarEmail = async (email, subject, html) => {
     try{
         await transporter.sendMail({
-            from: `Forgot password <${mail.user}>`, // sender address
+            from: `Autenticacion <${mail.user}>`, // sender address
             to: email, // list of receivers
             subject, // Subject line
             // text: "Hello world?", // plain text body

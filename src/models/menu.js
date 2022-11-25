@@ -28,7 +28,7 @@ const menuSchema = new Schema({
   categoria: {
     type: String,
     required: true,
-  },
+  }
 });
 
 export const Menu = mongoose.model("menu", menuSchema);

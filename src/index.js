@@ -4,6 +4,7 @@ import morgan from "morgan";
 import path from "path";
 import menuRouter from "./routes/menues.routes";
 import routerUser from "./routes/usuarios.routes"
+import routerPedidos from "./routes/pedidos.routes";
 import * as dotenv from "dotenv"
 import "./database"
 
@@ -32,3 +33,4 @@ app.use(express.static(path.join(__dirname, "../public")));
 // http://localhost:4000/menubar/prueba
 app.use("/apimenu", menuRouter);
 app.use("/apimenu/auth", routerUser);
+app.use("/apimenu/pedidos", routerPedidos)

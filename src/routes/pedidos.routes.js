@@ -3,10 +3,10 @@ import { check } from "express-validator";
 import { borrarPedidos, crearPedidos, editarPedidos, listarPedidos, obtenerPedidos } from "../controllers/pedidos.controller";
 
 
-const router = Router();
+const routerPedidos = Router();
 
 
-router.route("/pedidos").get(listarPedidos)
+routerPedidos.route("/combos").get(listarPedidos)
 .post(
     [check("nombreUsuario", "El nombre del pedido es obligatorio")
     .notEmpty()
@@ -33,8 +33,10 @@ router.route("/pedidos").get(listarPedidos)
     crearPedidos
   );
 
-  router
-  .route("/pedidos/:id")
+  routerPedidos
+  .route("/combos/:id")
   .get(obtenerPedidos)
   .put(editarPedidos)
   .delete(borrarPedidos);
+
+  export default routerPedidos;
