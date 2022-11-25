@@ -2,8 +2,10 @@ import { validationResult } from "express-validator";
 import { Menu } from "../models/menu";
 
 export const listarMenus = async (req, res) => {
+
   try {
     const menues = await Menu.find();
+    console.log(menues)
     res.status(200).json(menues);
   } catch (error) {
     console.log(error);
