@@ -117,7 +117,6 @@ export const encontrarUsuario = async (req, res) => {
     }
   };
 
-
   export const confirmEmail = async (req, res) => {
     try{
         //obtener el token
@@ -160,8 +159,34 @@ export const encontrarUsuario = async (req, res) => {
       })
   }
   }
+  export const obtenerUsuario = async (req, res) => {
+    try{
+      const id = req.params._id
+        const usuarioBuscado = await Producto.findById(id)
+        res.status(200).json(usuarioBuscado)
+    } catch(e){
+      console.log(e)
+      res.status(404).json({
+        message: "Error al encontra el usuario."
+      })
+    }
+    };
 
-
+  export const eliminarUsuario = async (req, res) => {
+    try{
+       const id = req.params._id
+      
+        await Producto.findByIdAndDelete(id)
+        res.status(200).json({
+          message: "El usario fue eliminado correctamente."
+        })
+    } catch(e){
+      console.log(e)
+      res.status(404).json({
+        message: "Error al intentar eliminar un usario."
+      })
+    }
+    };
 
 
   export const resetPassword = async (req, res) => {
