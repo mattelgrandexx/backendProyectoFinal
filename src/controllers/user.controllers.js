@@ -107,6 +107,7 @@ export const encontrarUsuario = async (req, res) => {
         _id: usuario._id,
         email: usuario.email,
         estado: usuario.estado,
+        permiso: usuario.permiso,
         token
       });
     } catch (error) {
@@ -150,7 +151,6 @@ export const encontrarUsuario = async (req, res) => {
             email: usuario.email,
             _id: usuario._id
         })
-
     }
     catch(e){
       console.log(e)
@@ -174,7 +174,7 @@ export const encontrarUsuario = async (req, res) => {
 
   export const eliminarUsuario = async (req, res) => {
     try{
-        const id = req.params.id 
+        const id = req.params._id 
 
         await Usuario.findByIdAndDelete(id)
         res.status(200).json({
@@ -187,23 +187,53 @@ export const encontrarUsuario = async (req, res) => {
       })
     }
     };
-    // export const suspenderUsuario = async (req, res) => {
-    //   try{
-    //     const id = req.params.id 
-    //     const usuario = await Usuario.find(id)
+    export const suspenderUsuario = async (req, res) => {
+      try{
+        const id = req.params._id 
+        const usuario = await Usuario.findOne(id)
+        if(!usuario){
+          return res.json({
+            message: "Usuario no encontrado."
+          })
+        }
+        usuario.permiso = "Suspendido"
 
-    //     if
+        usuario.save()
 
-    //     res.status(200).json({
-    //       message: "El usario fue eliminado correctamente."
-    //     })
-    //   } catch(e){
-    //     console.log(e)
-    //   res.status(404).json({
-    //     message: "Error al intentar suspender un usario."
-    //   })
-    //   }
-    // }
+        return res.status(200).json({
+         message: "Usuario suspendido"
+      })
+      } catch(e){
+        console.log(e)
+      res.status(404).json({
+        message: "Error al intentar suspender un usario."
+      })
+      }
+    }
+    export const permisoUsuarios = async (req, res) => {
+      try{
+        const id = req.params._id 
+        const usuario = await Usuario.findOne(id)
+        if(!usuario){
+          return res.json({
+            message: "Usuario no encontrado."
+          })
+        }
+        usuario.permiso = "permitido"
+
+        usuario.save()
+
+        return res.status(200).json({
+         message: "Usuario con permisos nuevamente."
+         
+      })
+      } catch(e){
+        console.log(e)
+      res.status(404).json({
+        message: "Error al intentar darle permisos al usuario."
+      })
+      }
+    }
 
 
   export const resetPassword = async (req, res) => {
