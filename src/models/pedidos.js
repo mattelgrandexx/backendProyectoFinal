@@ -4,16 +4,14 @@ const pedidosSchema = new Schema({
   nombreUsuario: {
     type: String,
     required: true,
-    unique: true,
     maxLength: 50,
     minLength: 2,
   },
 
-  pedido: {
+  pedido: [{
     nombreMenu: {
       type: String,
       required: true,
-      unique: true,
       maxLength: 50,
       minLength: 2,
     },
@@ -23,8 +21,15 @@ const pedidosSchema = new Schema({
       min: 100,
       max: 10000,
     },
+    cantidad: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 10,
+    },
   },
-});
+]}
+);
 
 export const Pedidos = mongoose.model("pedidos", pedidosSchema);
 
