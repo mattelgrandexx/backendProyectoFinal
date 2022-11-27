@@ -1,4 +1,5 @@
 import { Pedidos } from "../models/pedidos";
+import { validationResult } from "express-validator";
 
 export const listarPedidos = async (req, res) => {
     try {
