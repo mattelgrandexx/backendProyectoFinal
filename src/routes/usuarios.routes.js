@@ -37,9 +37,9 @@ routerUser.route("/perfilusuarios").get(consultarUsuarios).post([
     crearUsuario
 ])
 
-routerUser.route("/perfilusuarios/:id").delete(eliminarUsuario).get(suspenderUsuario)
+routerUser.route("/perfilusuarios/:_id").delete(eliminarUsuario).put(suspenderUsuario)
 
-routerUser.route("/perfilusuarios/permisos/:id").get(permisoUsuarios)
+routerUser.route("/perfilusuarios/permisos/:_id").put(permisoUsuarios)
 
 routerUser.route("/perfilusuarios/login").post([
     check("email", "El email del usuario es obligatorio")
