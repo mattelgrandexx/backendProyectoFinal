@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { confirmEmail, consultarUsuarios, crearUsuario, eliminarUsuario, encontrarUsuario, resetPassword, suspenderUsuario } from "../controllers/user.controllers";
+import { confirmEmail, consultarUsuarios, crearUsuario, eliminarUsuario, encontrarUsuario, permisoUsuarios, resetPassword, suspenderUsuario } from "../controllers/user.controllers";
 
 const routerUser = Router()
 
@@ -37,8 +37,9 @@ routerUser.route("/perfilusuarios").get(consultarUsuarios).post([
     crearUsuario
 ])
 
-routerUser.route("/perfilusuarios/:id").delete(eliminarUsuario)
-// .post(suspenderUsuario)
+routerUser.route("/perfilusuarios/:_id").delete(eliminarUsuario).put(suspenderUsuario)
+
+routerUser.route("/perfilusuarios/permisos/:_id").put(permisoUsuarios)
 
 routerUser.route("/perfilusuarios/login").post([
     check("email", "El email del usuario es obligatorio")

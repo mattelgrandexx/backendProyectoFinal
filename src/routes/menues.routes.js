@@ -46,7 +46,7 @@ router
       .withMessage("Debe enviar una url valida."),
     check("categoria", "Debe elegir una categoria para su menu")
       .notEmpty()
-      .isIn(["hamburgesas", "extras", "bebidas"])
+      .isIn(["hamburguesas", "extras", "bebidas"])
       .withMessage("La seleccion de la categoria debe ser valida."),
 
     crearMenu,
