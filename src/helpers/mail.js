@@ -45,7 +45,7 @@ const mail = {
             <img src="https://i.postimg.cc/FFnKd1zQ/LENOLOGO3.png" alt="logo" heigth="400px" text-align="center" width="300px"></img>
             <p>Para confirmar tu cuenta, haz un click en el siguiente enlace</p>
             <a
-            href="http://localhost:3000/confirmar/${token}"
+            href="https://shiny-meerkat-0b4284.netlify.app/confirmar/${token}"
             target="_blank">
             Confirmar Email</a>
            </div>
