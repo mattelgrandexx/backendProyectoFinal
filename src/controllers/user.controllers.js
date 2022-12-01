@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import { Usuario } from "../models/usuario";
 import bcrypt from "bcryptjs";
 import { generarJWT, obtenerToken, obtenerTokenData } from "../helpers/jwt";
-import { enviarEmail, getTemplate } from "../helpers/mail";
+import { enviarEmail, getTemplate, getTemplateReset } from "../helpers/mail";
 
 export const consultarUsuarios = async (req, res) => {
   try {
@@ -154,18 +154,7 @@ export const confirmEmail = async (req, res) => {
     });
   }
 };
-// export const obtenerUsuario = async (req, res) => {
-//   try{
-//     const id = req.params._id
-//       const usuarioBuscado = await Producto.findById(id)
-//       res.status(200).json(usuarioBuscado)
-//   } catch(e){
-//     console.log(e)
-//     res.status(404).json({
-//       message: "Error al encontra el usuario."
-//     })
-//   }
-//   };
+
 
 export const eliminarUsuario = async (req, res) => {
   try {
@@ -248,11 +237,101 @@ export const resetPassword = async (req, res) => {
         mensaje: "No pudimos enviar un correo a esa direccion",
       });
     }
+
+    const token = await obtenerToken(usuario._id, usuario.email);
+
+    const template = getTemplateReset(usuario.nombreUsuario, token);
+
+    await enviarEmail(usuario.email, "Recuperar contraseña", template);
+
     res.status(200).json({
       mensaje: "Email de recuperacion de contraseña enviado.",
       email: usuario.email,
+
     });
   } catch (e) {
     console.log(e);
   }
 };
+
+export const actualizarPass = async (req, res) => {
+  try{
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors)
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const { token } = req.params;
+    const data = await obtenerTokenData(token);
+
+    if (!data) {
+      return res.json({
+        message: "Error al obtener data.",
+      });
+    }
+    const usuarioBuscado = await Usuario.findOne({ _id: data.data } || null);
+
+    if (usuarioBuscado === null) {
+      return res.json({
+        message: "Usuario no encontrado.",
+      });
+    }
+    const {password} = req.body
+
+    usuarioBuscado.password = password
+
+    const salt = bcrypt.genSaltSync();
+    usuarioBuscado.password = bcrypt.hashSync(password, salt);
+
+    await usuarioBuscado.save();
+
+      res.status(200).json({
+        message: "Contraseña modificada correctamente.",
+        email: usuarioBuscado.email,
+        _id: usuarioBuscado._id,
+      })
+  } catch(e){
+    console.log(e)
+    res.status(404).json({
+      message: "Error al encontra el usuario."
+    })
+  }
+  };
+
+  export const obtenerEmail = async (req, res) => {
+    try{
+
+      const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors)
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+    
+    const { token } = req.params;
+    //verificamos la data
+    const data = await obtenerTokenData(token);
+    if (!data) {
+      return res.json({
+        message: "Error al obtener data.",
+      });
+    }
+    const usuarioBuscado = await Usuario.findOne({ _id: data.data },({}, { password: 0 }) || null);
+    if (usuarioBuscado === null) {
+      return res.json({
+        message: "Usuario no encontrado.",
+      });
+    }
+    res.status(200).json(usuarioBuscado)
+    } catch(e){
+      console.log(e)
+      res.status(404).json({
+        message: "Error al encontra el usuario."
+      })
+    }
+    };
