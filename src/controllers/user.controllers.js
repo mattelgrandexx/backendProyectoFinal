@@ -103,6 +103,7 @@ export const encontrarUsuario = async (req, res) => {
       email: usuario.email,
       estado: usuario.estado,
       permiso: usuario.permiso,
+      admin: usuario.admin,
       token,
     });
   } catch (error) {

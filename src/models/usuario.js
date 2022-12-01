@@ -37,6 +37,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         default: "permitido"
+    }, 
+    admin:{
+        type: String,
+        required: true,
+        default: false
     }
 })
 
