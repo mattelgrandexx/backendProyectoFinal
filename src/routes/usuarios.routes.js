@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { confirmEmail, consultarUsuarios, crearUsuario, eliminarUsuario, encontrarUsuario, permisoUsuarios, resetPassword, suspenderUsuario } from "../controllers/user.controllers";
+import { actualizarPass, confirmEmail, consultarUsuarios, crearUsuario, eliminarUsuario, encontrarUsuario, obtenerEmail, obtenerUsuario, permisoUsuarios, resetPassword, suspenderUsuario } from "../controllers/user.controllers";
 
 const routerUser = Router()
 
@@ -74,5 +74,16 @@ routerUser.route("/perfilusuarios/recuperacion").post([
     .withMessage("Debe ingresar un formato valido."),
     resetPassword
 ])
+routerUser.route("/perfilusuarios/recuperacion/:token").get(obtenerEmail).put([
+    check("password", "La contraseña es obligatoria.")
+    .notEmpty()
+    .trim()
+    .withMessage("El campo no puede estar vacio.")
+    .isLength({ min: 8, max: 60 })
+    .withMessage("La contraseña debe tener entre 8 y 60 caracteres."),
+
+    actualizarPass
+])
+
 
 export default routerUser;

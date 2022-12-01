@@ -26,7 +26,7 @@ const mail = {
  export const enviarEmail = async (email, subject, html) => {
     try{
         await transporter.sendMail({
-            from: `Autenticacion <${mail.user}>`, // sender address
+            from: `<${mail.user}>`, // sender address
             to: email, // list of receivers
             subject, // Subject line
             // text: "Hello world?", // plain text body
@@ -51,5 +51,20 @@ const mail = {
            </div>
         `
     }
+
+    export const getTemplateReset = (nombreUsuario, token) => {
+      return `
+      <div>
+          <h1>Hola ${nombreUsuario}, bienvenidos a Leno.</h1>
+          <img src="https://i.postimg.cc/FFnKd1zQ/LENOLOGO3.png" alt="logo" heigth="400px" text-align="center" width="300px"></img>
+          <p>Para recuperar tu contraseña, haz un click en el siguiente enlace</p>
+          <a
+          href="http://localhost:3000/reset/${token}"
+          target="_blank">
+          Recuperar contraseña</a>
+         </div>
+      `
+  }
     
+  // href="https://musical-syrniki-620ff4.netlify.app/reset/${token}"
 
