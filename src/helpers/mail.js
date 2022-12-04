@@ -59,12 +59,11 @@ const mail = {
           <img src="https://i.postimg.cc/FFnKd1zQ/LENOLOGO3.png" alt="logo" heigth="400px" text-align="center" width="300px"></img>
           <p>Para recuperar tu contraseña, haz un click en el siguiente enlace</p>
           <a
-          href="http://localhost:3000/reset/${token}"
+  href="https://musical-syrniki-620ff4.netlify.app/reset/${token}"
           target="_blank">
           Recuperar contraseña</a>
          </div>
       `
   }
-    
-  // href="https://musical-syrniki-620ff4.netlify.app/reset/${token}"
+    // href="http://localhost:3000/reset/${token}"
 
