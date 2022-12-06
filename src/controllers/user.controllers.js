@@ -184,6 +184,7 @@ export const suspenderUsuario = async (req, res) => {
     usuario.save();
 
      res.status(200).json({
+      status: 200,
       permiso: usuario.permiso,
       message: "Usuario suspendido",
     });
@@ -208,6 +209,7 @@ export const permisoUsuarios = async (req, res) => {
     usuario.save();
 
      res.status(200).json({
+      status: 200,
       permiso: usuario.permiso,
       message: "Usuario con permisos nuevamente.",
     });
