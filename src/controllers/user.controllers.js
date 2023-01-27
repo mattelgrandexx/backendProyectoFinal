@@ -54,7 +54,6 @@ export const crearUsuario = async (req, res) => {
       token,
     });
   } catch (e) {
-    console.log(e);
     res.status(404).json({
       message: "No pudimos crear el usuario.",
     });
@@ -63,39 +62,27 @@ export const crearUsuario = async (req, res) => {
 
 export const encontrarUsuario = async (req, res) => {
   try {
-    // manejar los errores de la validacion
     const errors = validationResult(req);
-    // errors.isEmpty() devuelve false si hay errores
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
       });
     }
-
-    //verificar si existe un mail como el recibido
     const { email, password } = req.body;
-
-    //verificar si el email ya existe
-    let usuario = await Usuario.findOne({ email }); //devulve un null
+    let usuario = await Usuario.findOne({ email }); 
     if (!usuario) {
-      //si el usuario existe
       return res.status(400).json({
         mensaje: "Correo o password invalido - correo",
       });
     }
 
-    // desencriptar el password
     const passwordValido = bcrypt.compareSync(password, usuario.password);
-    // si no es valido el password
     if (!passwordValido) {
       return res.status(400).json({
         mensaje: "Correo o password invalido - password",
       });
     }
-    //generar el token
     const token = await generarJWT(usuario._id, usuario.email);
-
-    //responder que el usuario es correcto
      res.status(200).json({
       mensaje: "El usuario existe",
       nombreUsuario: usuario.nombreUsuario,
@@ -107,7 +94,6 @@ export const encontrarUsuario = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       mensaje: "usuario o contraseña invalido",
     });
@@ -116,9 +102,7 @@ export const encontrarUsuario = async (req, res) => {
 
 export const confirmEmail = async (req, res) => {
   try {
-    //obtener el token
     const { token } = req.params;
-    //verificamos la data
     const data = await obtenerTokenData(token);
 
     if (!data) {
@@ -126,8 +110,6 @@ export const confirmEmail = async (req, res) => {
         message: "Error al obtener data.",
       });
     }
-    // const {_id} = data.data
-    //buscar si existe el usuario
     const usuario = await Usuario.findOne({ _id: data.data } || null);
 
     if (usuario === null) {
@@ -135,10 +117,7 @@ export const confirmEmail = async (req, res) => {
         message: "Usuario no encontrado.",
       });
     }
-
-    //actualizar usuario
     usuario.estado = "Autenticado";
-    //redireccionar a la confirmacion
     await usuario.save();
 
      res.status(200).json({
@@ -148,7 +127,6 @@ export const confirmEmail = async (req, res) => {
       _id: usuario._id,
     });
   } catch (e) {
-    console.log(e);
     res.status(404).json({
       message: "No pudimos confirmar el usuario.",
     });
@@ -164,7 +142,6 @@ export const eliminarUsuario = async (req, res) => {
       message: "El usario fue eliminado correctamente.",
     });
   } catch (e) {
-    console.log(e);
     res.status(404).json({
       message: "Error al intentar eliminar un usario.",
     });
@@ -189,7 +166,6 @@ export const suspenderUsuario = async (req, res) => {
       message: "Usuario suspendido",
     });
   } catch (e) {
-    console.log(e);
     res.status(404).json({
       message: "Error al intentar suspender un usario.",
     });
@@ -214,7 +190,6 @@ export const permisoUsuarios = async (req, res) => {
       message: "Usuario con permisos nuevamente.",
     });
   } catch (e) {
-    console.log(e);
     res.status(404).json({
       message: "Error al intentar darle permisos al usuario.",
     });
@@ -224,7 +199,6 @@ export const permisoUsuarios = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
     const errors = validationResult(req);
-    // errors.isEmpty() devuelve false si hay errores
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
@@ -234,7 +208,6 @@ export const resetPassword = async (req, res) => {
 
     let usuario = await Usuario.findOne({ email: email }); //devulve un null
     if (!usuario) {
-      //si el usuario existe
       return res.status(400).json({
         mensaje: "No pudimos enviar un correo a esa direccion",
       });
@@ -252,7 +225,6 @@ export const resetPassword = async (req, res) => {
 
     });
   } catch (e) {
-    console.log(e);
   }
 };
 
@@ -261,7 +233,6 @@ export const actualizarPass = async (req, res) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors)
       return res.status(400).json({
         errors: errors.array(),
       });
@@ -297,7 +268,6 @@ export const actualizarPass = async (req, res) => {
         _id: usuarioBuscado._id,
       })
   } catch(e){
-    console.log(e)
     res.status(404).json({
       message: "Error al encontra el usuario."
     })
@@ -309,14 +279,12 @@ export const actualizarPass = async (req, res) => {
 
       const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors)
       return res.status(400).json({
         errors: errors.array(),
       });
     }
     
     const { token } = req.params;
-    //verificamos la data
     const data = await obtenerTokenData(token);
     if (!data) {
       return res.json({
@@ -331,7 +299,6 @@ export const actualizarPass = async (req, res) => {
     }
     res.status(200).json(usuarioBuscado)
     } catch(e){
-      console.log(e)
       res.status(404).json({
         message: "Error al encontra el usuario."
       })

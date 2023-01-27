@@ -16,21 +16,16 @@ const app = express();
 app.set("port", process.env.PORT || 4000);
 
 app.listen( app.get("port"), ()=>{
-    console.log("estoy en el puerto"+ app.get("port"));
 });
 
-// middlewares:
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(morgan("dev"));
-// archivo estatico
 app.use(express.static(path.join(__dirname, "../public")));
 
 
-
-// http://localhost:4000/menubar/prueba
 app.use("/apimenu", menuRouter);
 app.use("/apimenu/auth", routerUser);
 app.use("/apimenu/pedidos", routerPedidos)

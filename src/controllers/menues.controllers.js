@@ -7,7 +7,6 @@ export const listarMenus = async (req, res) => {
     const menues = await Menu.find();
     res.status(200).json(menues);
   } catch (error) {
-    console.log(error);
     res.staus(400).json({
       message: "No pudimos encontrar los menus.",
     });
@@ -43,7 +42,6 @@ export const obtenerMenu = async (req, res) => {
 
     res.status(200).json(menuBuscado);
   } catch (error) {
-    console.log(error);
     res.status(404).json({
       mensaje: "Error al buscar el menu especificado",
     });
@@ -55,7 +53,6 @@ export const editarMenu = async (req, res) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors)
       return res.status(400).json({
         errors: errors.array(),
       });
@@ -66,7 +63,6 @@ export const editarMenu = async (req, res) => {
       mensaje: "El menu se actualizado correctamente",
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       mensaje: "Error al editar el menu especificado",
     });
@@ -80,7 +76,6 @@ export const borrarMenu = async (req, res) => {
       mensaje: "El menu se borro correctamente",
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({
       mensaje: "Error al borrar el menu especificado",
     });
